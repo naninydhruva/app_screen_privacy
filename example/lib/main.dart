@@ -25,6 +25,7 @@ class _MyAppState extends State<MyApp> {
     AppScreenPrivacy.init(
       logo: 'assets/images/privacy-lock.png',
       backgroundColor: '#FFFFFF',
+      shouldPreventScreenShot: false,
     );
   }
 

@@ -8,7 +8,11 @@ class AppScreenPrivacy with WidgetsBindingObserver {
   static String? _logo;
   static String? _backgroundColor;
 
-  static void init({String? logo, String? backgroundColor}) {
+  static void init({
+    String? logo,
+    String? backgroundColor,
+    bool shouldPreventScreenShot = false,
+  }) {
     _logo = logo;
     _backgroundColor = backgroundColor;
     WidgetsBinding.instance.addObserver(_instance);
@@ -18,7 +22,7 @@ class AppScreenPrivacy with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     switch (state) {
       case AppLifecycleState.resumed:
-        await _channel.invokeMethod('hidePrivacyScreen');
+        _channel.invokeMethod('hidePrivacyScreen');
         break;
       case AppLifecycleState.inactive:
       case AppLifecycleState.paused:
