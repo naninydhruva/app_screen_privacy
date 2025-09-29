@@ -81,7 +81,7 @@ public class AppScreenPrivacyPlugin: NSObject, FlutterPlugin {
                 }
             }
             
-            imageView.contentMode = .scaleAspectFit
+            imageView.contentMode = .scaleToFill
             imageView.translatesAutoresizingMaskIntoConstraints = false
             containerView.addSubview(imageView)
             
