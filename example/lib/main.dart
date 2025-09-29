@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
     AppScreenPrivacy.init(
       logo: 'assets/images/privacy-lock.png',
       backgroundColor: '#FFFFFF',
-      shouldPreventScreenShot: false,
+      shouldPreventScreenShot: true,
     );
   }
 
@@ -33,6 +33,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'Privacy Screen Demo',
       home: Scaffold(
         appBar: AppBar(title: const Text('Plugin example app')),
         body: Center(child: Text('Test for screen overlay with custom logo\n')),

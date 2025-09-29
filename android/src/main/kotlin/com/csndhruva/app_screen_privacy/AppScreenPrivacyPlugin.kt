@@ -4,6 +4,7 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin
 import android.graphics.Color
 import android.widget.ImageView
 import android.widget.FrameLayout
+import android.view.WindowManager
 import android.graphics.drawable.Drawable
 import android.util.Log
 import java.io.IOException
@@ -42,10 +43,23 @@ class AppScreenPrivacyPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         else if(call.method == "showPrivacyScreen"){
             val logo = call.argument<String?>("logo")
             val bgColor = call.argument<String?>("backgroundColor")
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
             showPrivacyScreen(logo, bgColor)
             result.success("success")
         } else if(call.method == "hidePrivacyScreen"){
+            val isSecure = call.argument<Boolean?>("shouldPreventScreenShot")
+            if(isSecure == true){
+                activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+            } else {
+                activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+            }
             hidePrivacyScreen()
+            result.success(null)
+        } else if(call.method == "enableScreenShotProtection"){
+            activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+            result.success(null)
+        } else if(call.method == "disableScreenShotProtection"){
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
             result.success(null)
         }
         else {
