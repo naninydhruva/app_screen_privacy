@@ -68,31 +68,33 @@ public class AppScreenPrivacyPlugin: NSObject, FlutterPlugin {
         }
         
         // Add logo if provided
-        if let logo = logo {
-            let imageView = UIImageView()
+        let imageView = UIImageView()
+        
+        // Load image from Flutter assets
+        if let logo = logo, let image = loadImageFromFlutterAssets(assetPath: logo) {
+            imageView.image = image
+        } else {
+            let bundle = Bundle(for:AppScreenPrivacyPlugin.self)
             
-            // Load image from Flutter assets
-            if let image = loadImageFromFlutterAssets(assetPath: logo) {
+            // Fallback: try loading from iOS bundle
+            if let image = UIImage(named: "lock.png", in: bundle, compatibleWith: nil) {
                 imageView.image = image
-            } else {
-                // Fallback: try loading from iOS bundle
-                if let image = UIImage(named: logo) {
-                    imageView.image = image
-                }
             }
-            
-            imageView.contentMode = .scaleToFill
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            containerView.addSubview(imageView)
-            
-            // Center the image
-            NSLayoutConstraint.activate([
-                imageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-                imageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-                imageView.widthAnchor.constraint(lessThanOrEqualTo: containerView.widthAnchor, multiplier: 0.8),
-                imageView.heightAnchor.constraint(lessThanOrEqualTo: containerView.heightAnchor, multiplier: 0.8)
-            ])
         }
+        
+        imageView.contentMode = .scaleToFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(imageView)
+        print("Container Width: \(containerView.widthAnchor)")
+        print("Container Height: \(containerView.heightAnchor)")
+        
+        // Center the image
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            imageView.widthAnchor.constraint(lessThanOrEqualTo: containerView.widthAnchor, multiplier: 0.8),
+            imageView.heightAnchor.constraint(lessThanOrEqualTo: containerView.heightAnchor, multiplier: 0.8)
+        ])
         
         privacyView = containerView
         window.addSubview(containerView)
